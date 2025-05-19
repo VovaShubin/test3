@@ -1,0 +1,12 @@
+{
+    "require": {
+        "laravel/jetstream": "^2.9",
+        "linslin/yii2-curl": "^1.5",
+        "amocrm/oauth2-amocrm": "^3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
+    }
+}
