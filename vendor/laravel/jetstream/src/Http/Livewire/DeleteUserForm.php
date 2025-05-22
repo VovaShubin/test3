@@ -37,7 +37,7 @@ class DeleteUserForm extends Component
 
         $this->password = '';
 
-        $this->dispatchBrowserEvent('confirming-delete-user');
+        $this->dispatch('confirming-delete-user');
 
         $this->confirmingUserDeletion = true;
     }
@@ -69,7 +69,7 @@ class DeleteUserForm extends Component
             $request->session()->regenerateToken();
         }
 
-        return redirect('/');
+        return redirect(config('fortify.redirects.logout') ?? '/');
     }
 
     /**
