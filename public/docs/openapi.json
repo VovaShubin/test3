@@ -1,0 +1,77 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Support Requests API",
+    "version": "1.0.0"
+  },
+  "servers": [{"url": "/api"}],
+  "paths": {
+    "/requests": {
+      "get": {
+        "summary": "List support requests",
+        "parameters": [
+          {"name": "status", "in": "query", "schema": {"type": "string", "enum": ["Active", "Resolved"]}},
+          {"name": "from", "in": "query", "schema": {"type": "string", "format": "date-time"}},
+          {"name": "to", "in": "query", "schema": {"type": "string", "format": "date-time"}},
+          {"name": "per_page", "in": "query", "schema": {"type": "integer", "minimum": 1, "maximum": 100}}
+        ],
+        "responses": {"200": {"description": "OK"}},
+        "security": [{"AdminToken": []}]
+      },
+      "post": {
+        "summary": "Create support request",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "email", "message"],
+                "properties": {
+                  "name": {"type": "string"},
+                  "email": {"type": "string", "format": "email"},
+                  "message": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {"201": {"description": "Created"}}
+      }
+    },
+    "/requests/{id}": {
+      "put": {
+        "summary": "Update support request (resolve)",
+        "parameters": [{"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": {"type": "string", "enum": ["Active", "Resolved"]},
+                  "comment": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {"200": {"description": "OK"}},
+        "security": [{"AdminToken": []}]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "AdminToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Admin-Token"
+      }
+    }
+  }
+}
+
+
